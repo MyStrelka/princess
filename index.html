@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Princess Ascendant | Женская одежда ручной работы</title>
+    <style>
+        /* Основные мистические цвета */
+        :root {
+            --gold-dark: #b59410; /* Старое золото */
+            --gold-light: #e6c229; /* Яркое золото для акцентов */
+            --bg-deep: #050505; /* Почти абсолютный черный */
+            --text-main: #f0f0f0; /* Мягкий белый */
+            --text-muted: #888; /* Приглушенный серый */
+            --shadow-gold: 0 0 15px rgba(181, 148, 16, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            /* Используем элегантный шрифт с засечками для атмосферы */
+            font-family: 'Georgia', serif; 
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ограничиваем ширину для мобильных */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+        }
+
+        /* --- HEADER: Логотип в стиле референса --- */
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+        }
+
+        /* Центральный элемент логотипа */
+        .logo-main {
+            font-size: 24px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: #fff;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Золотой текст подписи */
+        .logo-sub {
+            font-size: 14px;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+        }
+
+        /* Тонкая разделительная линия с фазами луны */
+        .logo-divider {
+            margin: 20px auto 0;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+            position: relative;
+        }
+
+        .logo-divider::after {
+            content: "☾ ◯ ☽"; /* Символы фаз луны */
+            color: var(--gold-dark);
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-deep);
+            padding: 0 10px;
+            font-size: 12px;
+        }
+
+        /* --- КАТАЛОГ: Карточки товаров --- */
+        .catalog {
+            padding: 0 15px;
+        }
+
+        .product-card {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        /* Карусель фото (нативный свайп) */
+        .image-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        /* Убираем полосу прокрутки */
+        .image-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-carousel img {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            object-fit: cover;
+            /* Легкое виньетирование для глубины */
+            filter: contrast(1.1) brightness(0.9); 
+        }
+
+        /* Имитация точек карусели в виде фаз луны (статичная, т.к. нет JS) */
+        .moon-pagination {
+            text-align: center;
+            font-size: 14px;
+            color: var(--gold-dark);
+            margin-top: 10px;
+            letter-spacing: 5px;
+            opacity: 0.6;
+        }
+
+        /* --- ИНФО О ТОВАРЕ --- */
+        .product-info {
+            padding: 30px 10px 10px;
+            text-align: center;
+        }
+
+        /* Надзаголовок */
+        .category {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold-dark);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Название изделия (крупно) */
+        .title {
+            font-size: 26px;
+            margin: 0 0 15px 0;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: none; /*Georgia красива в обычном регистре */
+        }
+
+        /* Стоимость */
+        .price {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: var(--gold-light);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(230, 194, 41, 0.3);
+        }
+
+        /* Описание и состав */
+        .description-block {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .description, .composition {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+        }
+
+        .composition b {
+            color: var(--gold-dark);
+            font-family: 'Georgia', serif;
+            font-weight: normal;
+        }
+
+        /* Декоративный элемент перед составом */
+        .composition::before {
+            content: "✧";
+            color: var(--gold-dark);
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        /* --- КНОПКА СВЯЗИ --- */
+        .btn-container {
+            padding: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid var(--gold-dark);
+            color: var(--gold-light);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 3px;
+            transition: 0.4s;
+            position: relative;
+            box-shadow: var(--shadow-gold);
+        }
+
+        /* Эффект при нажатии */
+        .btn:active {
+            background: var(--gold-dark);
+            color: var(--bg-deep);
+            box-shadow: 0 0 25px rgba(181, 148, 16, 0.8);
+            transform: scale(0.98);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+     <header>
+    <img src="img/logo.png" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
+    <div class="logo-divider"></div>
+</header>
+
+        <div class="catalog">
+            
+            <div class="product-card">
+                <div class="image-carousel">
+                    <img src="img/steel6.jpg" alt="Вид 1">
+                    <img src="steel1.jpg" alt="Вид 2">
+                    <img src="steel2.jpg" alt="Вид 3">
+                    <img src="steel3.jpg" alt="Вид 4">
+                    <img src="steel4.jpg" alt="Вид 5">
+                    <img src="steel5.jpg" alt="Вид 6">
+                    <img src="steel7.jpg" alt="Вид 7">
+                </div>
+                <div class="moon-pagination">☾ ◯ ☽</div>
+                
+                <div class="product-info">
+                    <span class="category">Atelier Handcrafted</span>
+                    <h2 class="title">Стальной комплект</h2>
+                    <div class="price">8 990 ₽</div>
+                    
+                    <div class="description-block">
+                        <p class="description">Выполнен из тонкого атласа, на теле практически не ощущается🪽
+На груди расположена застежка в виде цепочки с черепом птицы. 
+Дополнительно к комплекту идут цепочки-браслеты для брюк или на рукава верха. 
+Можно использовать как для домашних образов, так и для выхода в свет👸🏻.</p>
+                        <p class="composition"><b>Материалы:</b> 100% пэ</p>
+                    </div>
+
+                    <div class="btn-container">
+                        <a href="https://t.me/your_nick" class="btn">Запросить аудиенцию</a>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+
+      <div class="product-card">
+                <div class="image-carousel">
+                    <img src="img/3ka1.jpg" alt="Вид 1">
+                    <img src="3ka2.jpg" alt="Вид 2">
+                    <img src="3ka3.jpg" alt="Вид 3">
+                    <img src="3ka4.jpg" alt="Вид 4">
+                    <img src="3ka5.jpg" alt="Вид 5">
+                    <img src="3ka6jpg" alt="Вид 6">
+                   
+                </div>
+                <div class="moon-pagination">☾ ◯ ☽</div>
+                
+                <div class="product-info">
+                    <span class="category">Atelier Handcrafted</span>
+                    <h2 class="title">Пижама тройка</h2>
+                    <div class="price">9 990 ₽</div>
+                    
+                    <div class="description-block">
+                        <p class="description">В состав входит топ, брюки и кимоно со съемным поясом. При желании цепочки можно снять.  
+На ткани красивые, золотистые прожилки, которые переливаются от каждого вашего движения.</p>
+                        <p class="composition"><b>Материалы:</b> Искусственный шелк</p>
+                    </div>
+
+                    <div class="btn-container">
+                        <a href="https://t.me/your_nick" class="btn">Запросить аудиенцию</a>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+    </div>
+
+</body>
+</html>
