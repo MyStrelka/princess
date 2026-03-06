@@ -7,18 +7,17 @@
     <style>
         /* Основные мистические цвета */
         :root {
-            --gold-dark: #b59410; /* Старое золото */
-            --gold-light: #e6c229; /* Яркое золото для акцентов */
-            --bg-deep: #050505; /* Почти абсолютный черный */
-            --text-main: #f0f0f0; /* Мягкий белый */
-            --text-muted: #888; /* Приглушенный серый */
+            --gold-dark: #b59410;
+            --gold-light: #e6c229;
+            --bg-deep: #050505;
+            --text-main: #f0f0f0;
+            --text-muted: #888;
             --shadow-gold: 0 0 15px rgba(181, 148, 16, 0.4);
         }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-main);
-            /* Используем элегантный шрифт с засечками для атмосферы */
             font-family: 'Georgia', serif; 
             margin: 0;
             padding: 0;
@@ -26,41 +25,22 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ограничиваем ширину для мобильных */
         .app-container {
             max-width: 480px;
             margin: 0 auto;
             padding-bottom: 40px;
+            position: relative;
+            z-index: 10;
+            background-color: transparent;
         }
 
-        /* --- HEADER: Логотип в стиле референса --- */
+        /* --- HEADER --- */
         header {
             text-align: center;
             padding: 50px 20px;
             position: relative;
         }
 
-        /* Центральный элемент логотипа */
-        .logo-main {
-            font-size: 24px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-weight: 300;
-            color: #fff;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        /* Золотой текст подписи */
-        .logo-sub {
-            font-size: 14px;
-            color: var(--gold-dark);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            display: block;
-        }
-
-        /* Тонкая разделительная линия с фазами луны */
         .logo-divider {
             margin: 20px auto 0;
             width: 60%;
@@ -70,7 +50,7 @@
         }
 
         .logo-divider::after {
-            content: "☾ ◯ ☽"; /* Символы фаз луны */
+            content: "☾ ◯ ☽";
             color: var(--gold-dark);
             position: absolute;
             top: -10px;
@@ -81,7 +61,7 @@
             font-size: 12px;
         }
 
-        /* --- КАТАЛОГ: Карточки товаров --- */
+        /* --- КАТАЛОГ --- */
         .catalog {
             padding: 0 15px;
         }
@@ -91,7 +71,6 @@
             position: relative;
         }
 
-        /* Карусель фото (нативный свайп) */
         .image-carousel {
             display: flex;
             overflow-x: auto;
@@ -102,7 +81,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        /* Убираем полосу прокрутки */
         .image-carousel::-webkit-scrollbar {
             display: none;
         }
@@ -112,11 +90,9 @@
             width: 100%;
             scroll-snap-align: start;
             object-fit: cover;
-            /* Легкое виньетирование для глубины */
             filter: contrast(1.1) brightness(0.9); 
         }
 
-        /* Имитация точек карусели в виде фаз луны (статичная, т.к. нет JS) */
         .moon-pagination {
             text-align: center;
             font-size: 14px;
@@ -126,13 +102,11 @@
             opacity: 0.6;
         }
 
-        /* --- ИНФО О ТОВАРЕ --- */
         .product-info {
             padding: 30px 10px 10px;
             text-align: center;
         }
 
-        /* Надзаголовок */
         .category {
             font-family: Arial, sans-serif;
             font-size: 11px;
@@ -143,17 +117,15 @@
             display: block;
         }
 
-        /* Название изделия (крупно) */
         .title {
             font-size: 26px;
             margin: 0 0 15px 0;
             font-weight: 400;
             letter-spacing: 2px;
             color: #fff;
-            text-transform: none; /*Georgia красива в обычном регистре */
+            text-transform: none;
         }
 
-        /* Стоимость */
         .price {
             font-family: Arial, sans-serif;
             font-size: 20px;
@@ -163,7 +135,6 @@
             text-shadow: 0 0 10px rgba(230, 194, 41, 0.3);
         }
 
-        /* Описание и состав */
         .description-block {
             max-width: 90%;
             margin: 0 auto;
@@ -183,7 +154,6 @@
             font-weight: normal;
         }
 
-        /* Декоративный элемент перед составом */
         .composition::before {
             content: "✧";
             color: var(--gold-dark);
@@ -192,7 +162,6 @@
             font-size: 18px;
         }
 
-        /* --- КНОПКА СВЯЗИ --- */
         .btn-container {
             padding: 20px 0;
         }
@@ -213,7 +182,6 @@
             box-shadow: var(--shadow-gold);
         }
 
-        /* Эффект при нажатии */
         .btn:active {
             background: var(--gold-dark);
             color: var(--bg-deep);
@@ -221,19 +189,66 @@
             transform: scale(0.98);
         }
 
+        /* ===== КОСМИЧЕСКАЯ МЕХАНИКА ===== */
+        .orbital-planet {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.25;
+            filter: drop-shadow(0 0 20px rgba(230, 194, 41, 0.3));
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
+            will-change: transform;
+        }
+
+        .moon-planet {
+            width: 150px;
+            height: 150px;
+        }
+
+        .jupiter-planet {
+            width: 200px;
+            height: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .orbital-planet {
+                opacity: 0.1;
+                width: 100px;
+                height: 100px;
+            }
+            .jupiter-planet {
+                width: 120px;
+                height: 120px;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Мистические стражи: Луна и Юпитер -->
+    <div class="orbital-planet moon-planet">
+        <img src="img/moon.png" alt="Луна" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+
+    <div class="orbital-planet jupiter-planet">
+        <img src="img/up.png" alt="Юпитер" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+
     <div class="app-container">
         
-     <header>
-    <img src="img/logo.jpg" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
-    <div class="logo-divider"></div>
-</header>
+        <header>
+            <img src="img/logo.jpg" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
+            <div class="logo-divider"></div>
+        </header>
 
         <div class="catalog">
             
+            <!-- Первый товар -->
             <div class="product-card">
                 <div class="image-carousel">
                     <img src="img/steel6.jpg" alt="Вид 1">
@@ -265,9 +280,8 @@
                 </div>
             </div>
             
-            </div>
-
-      <div class="product-card">
+            <!-- Второй товар -->
+            <div class="product-card">
                 <div class="image-carousel">
                     <img src="img/3ka1.jpg" alt="Вид 1">
                     <img src="img/3ka2.jpg" alt="Вид 2">
@@ -275,7 +289,6 @@
                     <img src="img/3ka4.jpg" alt="Вид 4">
                     <img src="img/3ka5.jpg" alt="Вид 5">
                     <img src="img/3ka6.jpg" alt="Вид 6">
-                   
                 </div>
                 <div class="moon-pagination">☾ ◯ ☽</div>
                 
@@ -296,8 +309,45 @@
                 </div>
             </div>
             
-            </div>
-    </div>
+        </div> <!-- закрытие catalog -->
+    </div> <!-- закрытие app-container -->
+
+    <script>
+        (function() {
+            document.addEventListener('DOMContentLoaded', function() {
+                const moon = document.querySelector('.moon-planet');
+                const jupiter = document.querySelector('.jupiter-planet');
+                
+                if (!moon || !jupiter) return;
+                
+                // Параметры эллиптической орбиты
+                const radiusX = 350;
+                const radiusY = 180;
+                
+                function updateOrbit() {
+                    const scrollY = window.scrollY;
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    const progress = Math.min(scrollY / maxScroll, 1);
+                    
+                    const baseAngle = progress * Math.PI * 2;
+                    const moonAngle = baseAngle - Math.PI / 2;
+                    const jupiterAngle = moonAngle + Math.PI;
+                    
+                    const moonX = Math.cos(moonAngle) * radiusX;
+                    const moonY = Math.sin(moonAngle) * radiusY;
+                    
+                    const jupiterX = Math.cos(jupiterAngle) * radiusX;
+                    const jupiterY = Math.sin(jupiterAngle) * radiusY;
+                    
+                    moon.style.transform = `translate(calc(-50% + ${moonX}px), calc(-50% + ${moonY}px))`;
+                    jupiter.style.transform = `translate(calc(-50% + ${jupiterX}px), calc(-50% + ${jupiterY}px))`;
+                }
+                
+                window.addEventListener('scroll', updateOrbit, { passive: true });
+                updateOrbit(); // начальная позиция
+            });
+        })();
+    </script>
 
 </body>
 </html>
