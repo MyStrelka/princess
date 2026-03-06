@@ -218,15 +218,22 @@
 }
 
 /* Плавное затухание к краям */
-.orbital-planet::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, transparent 30%, var(--bg-deep) 90%);
+/* ===== КОСМИЧЕСКАЯ МЕХАНИКА ===== */
+.orbital-planet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    z-index: 0;  /* Позади контента */
     pointer-events: none;
+    opacity: 0.2;  /* Лёгкая полупрозрачность */
+    filter: 
+        drop-shadow(0 0 20px rgba(230, 194, 41, 0.25))
+        blur(0.8px);  /* Слегка размываем края */
+    transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
+    will-change: transform;
 }
 
 .moon-planet {
@@ -239,9 +246,10 @@
     height: 200px;
 }
 
+/* На мобильных ещё тише */
 @media (max-width: 768px) {
     .orbital-planet {
-        opacity: 0.08;
+        opacity: 0.1;
         width: 100px;
         height: 100px;
         filter: blur(0.5px);
@@ -249,9 +257,6 @@
     .jupiter-planet {
         width: 120px;
         height: 120px;
-    }
-    .orbital-planet::after {
-        background: radial-gradient(circle at center, transparent 20%, var(--bg-deep) 80%);
     }
 }
     </style>
