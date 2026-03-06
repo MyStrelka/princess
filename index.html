@@ -190,42 +190,70 @@
         }
 
         /* ===== КОСМИЧЕСКАЯ МЕХАНИКА ===== */
-        .orbital-planet {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 180px;
-            height: 180px;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0.25;
-            filter: drop-shadow(0 0 20px rgba(230, 194, 41, 0.3));
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
-            will-change: transform;
-        }
+        .app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    background-color: transparent;
+}
 
-        .moon-planet {
-            width: 150px;
-            height: 150px;
-        }
+/* ===== КОСМИЧЕСКАЯ МЕХАНИКА (ФОН) ===== */
+.orbital-planet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    filter: 
+        drop-shadow(0 0 30px rgba(230, 194, 41, 0.2))
+        blur(0.3px);
+    transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
+    will-change: transform;
+}
 
-        .jupiter-planet {
-            width: 200px;
-            height: 200px;
-        }
+/* Плавное затухание к краям */
+.orbital-planet::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 30%, var(--bg-deep) 90%);
+    pointer-events: none;
+}
 
-        @media (max-width: 768px) {
-            .orbital-planet {
-                opacity: 0.1;
-                width: 100px;
-                height: 100px;
-            }
-            .jupiter-planet {
-                width: 120px;
-                height: 120px;
-            }
-        }
+.moon-planet {
+    width: 150px;
+    height: 150px;
+}
+
+.jupiter-planet {
+    width: 200px;
+    height: 200px;
+}
+
+@media (max-width: 768px) {
+    .orbital-planet {
+        opacity: 0.08;
+        width: 100px;
+        height: 100px;
+        filter: blur(0.5px);
+    }
+    .jupiter-planet {
+        width: 120px;
+        height: 120px;
+    }
+    .orbital-planet::after {
+        background: radial-gradient(circle at center, transparent 20%, var(--bg-deep) 80%);
+    }
+}
     </style>
 </head>
 <body>
@@ -330,8 +358,8 @@
                     const progress = Math.min(scrollY / maxScroll, 1);
                     
                     const baseAngle = progress * Math.PI * 2;
-                    const moonAngle = baseAngle - Math.PI / 2;
-                    const jupiterAngle = moonAngle + Math.PI;
+                    const moonAngle = baseAngle - Math.PI / 3;   // -60° = 10 часов
+                    const jupiterAngle = moonAngle + Math.PI;    // +180° = напротив (4 часа)
                     
                     const moonX = Math.cos(moonAngle) * radiusX;
                     const moonY = Math.sin(moonAngle) * radiusY;
