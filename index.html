@@ -273,17 +273,17 @@
             transform: translate(-50%, -50%);
             z-index: 0;
             pointer-events: none;
-            opacity: 0.2;
+            opacity: 0.4;
             filter: 
                 drop-shadow(0 0 30px rgba(230, 194, 41, 0.2))
-                /*blur(0.8px);*/
+                blur(0.8px);
             transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
             will-change: transform;
         }
 
         .moon-planet {
-            width: 150px;
-            height: 150px;
+            width: 250px;
+            height: 250px;
         }
 
         .jupiter-planet {
@@ -293,14 +293,14 @@
 
         @media (max-width: 768px) {
             .orbital-planet {
-                opacity: 0.1;
+                opacity: 0.3;
                 width: 100px;
                 height: 100px;
-                filter: blur(0.5px);
+                /*filter: blur(0.5px);*/
             }
             .jupiter-planet {
-                width: 120px;
-                height: 120px;
+                width: 220px;
+                height: 220px;
             }
         }
     </style>
@@ -319,7 +319,7 @@
     <div class="app-container">
         
         <header>
-            <img src="img/logo.jpg" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
+            <img src="img/logo1.png" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
             <div class="logo-divider"></div>
         </header>
 
@@ -440,8 +440,8 @@
                 
                 if (!moon || !jupiter) return;
                 
-                const radiusX = 350;
-                const radiusY = 180;
+                const radiusX = 450;
+                const radiusY = 280;
                 
                 function updateOrbit() {
                     const scrollY = window.scrollY;
