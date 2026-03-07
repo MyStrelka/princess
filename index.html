@@ -16,15 +16,69 @@
         }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: 'Georgia', serif; 
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+  margin: 0;
+  background-color: #030305; /* Почти черный, но с каплей синевы */
+  color: #f5eeda;
+  min-height: 100vh;
+  position: relative;
+}
 
+/* Общий стиль для всех слоев звезд */
+body::before, 
+body::after,
+.stars-container::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: transparent;
+  z-index: -1;
+}
+
+/* СЛОЙ 1: Мелкая пыль (1px) */
+/* СЛОЙ 1: Мелкая пыль (1px) — стала гуще */
+body::before {
+  width: 1px;
+  height: 1px;
+  box-shadow: 
+    /* Твои старые координаты */
+    150px 10px #fff, 450px 250px #fff, 800px 150px #fff, 1200px 400px #fff,
+    200px 500px #fff, 600px 700px #fff, 1000px 900px #fff, 1400px 200px #fff,
+    300px 1000px #fff, 750px 1200px #fff, 1100px 50px #fff, 1550px 650px #fff,
+    50px 300px #fff, 500px 50px #fff, 950px 350px #fff, 1300px 800px #fff,
+    250px 150px #fff, 650px 450px #fff, 1050px 750px #fff, 1450px 50px #fff,
+    /* НОВЫЕ ТОЧКИ (+30%) */
+    320px 80px #fff, 120px 950px #fff, 1700px 210px #fff, 880px 580px #fff,
+    540px 1100px #fff, 1380px 40px #fff, 10px 620px #fff, 1850px 880px #fff,
+    910px 10px #fff, 440px 820px #fff;
+  opacity: 0.3;
+}
+
+/* СЛОЙ 2: Средние звезды (2px) — добавили золотистых акцентов */
+body::after {
+  width: 2px;
+  height: 2px;
+  box-shadow: 
+    /* Твои старые координаты */
+    340px 150px #f5eeda, 720px 450px #d4af37, 1150px 280px #f5eeda, 1580px 720px #d4af37,
+    120px 850px #d4af37, 580px 920px #f5eeda, 940px 110px #d4af37, 1360px 540px #f5eeda,
+    410px 630px #f5eeda, 890px 810px #d4af37, 1220px 950px #f5eeda, 1650px 120px #d4af37,
+    /* НОВЫЕ ТОЧКИ (+35%) */
+    220px 320px #d4af37, 1450px 890px #f5eeda, 780px 50px #d4af37, 1800px 550px #f5eeda,
+    50px 1150px #d4af37, 1100px 680px #f5eeda;
+  opacity: 0.5;
+}
+
+/* СЛОЙ 3: Крупные звезды (3px) — добавили легкое свечение */
+.stars-container::after {
+  content: "";
+  width: 3px;
+  height: 3px;
+  box-shadow: 
+    500px 400px #fff, 1100px 800px #f5eeda, 200px 900px #d4af37, 1400px 300px #fff;
+  filter: blur(1px); /* Легкое свечение для крупных звезд */
+  opacity: 0.6;
+}
         .app-container {
             max-width: 480px;
             margin: 0 auto;
@@ -422,15 +476,36 @@
     <script>
         // Функция для прокрутки карусели
         function scrollCarousel(carouselId, direction) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const scrollAmount = carousel.clientWidth;
-            carousel.scrollBy({
-                left: direction * scrollAmount,
-                behavior: 'smooth'
-            });
-        }
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+    
+    const scrollAmount = carousel.clientWidth;
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+    
+    let newPosition = carousel.scrollLeft + (direction * scrollAmount);
+    
+    // Если дошли до конца — перекидываем в начало
+    if (newPosition >= maxScroll + 5) { // +5 для погрешности
+        carousel.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+    // Если дошли до начала — перекидываем в конец
+    else if (newPosition <= -5) {
+        carousel.scrollTo({
+            left: maxScroll,
+            behavior: 'smooth'
+        });
+    }
+    // Иначе обычная прокрутка
+    else {
+        carousel.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
 
         // Орбитальная механика планет
         (function() {
