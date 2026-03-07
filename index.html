@@ -30,7 +30,7 @@
             margin: 0 auto;
             padding-bottom: 40px;
             position: relative;
-            z-index: 10;
+            z-index: 1;
             background-color: transparent;
         }
 
@@ -71,18 +71,27 @@
             position: relative;
         }
 
-        .image-carousel {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+        /* Контейнер для карусели со стрелками */
+        .carousel-container {
+            position: relative;
+            width: 100%;
             border-radius: 2px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
+        /* Карусель (полностью без скролла) */
+        .image-carousel {
+            display: flex;
+            overflow-x: hidden;  /* Скрываем прокрутку */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            border-radius: 2px;
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE */
+        }
+
         .image-carousel::-webkit-scrollbar {
-            display: none;
+            display: none;  /* Chrome/Safari */
         }
 
         .image-carousel img {
@@ -91,6 +100,71 @@
             scroll-snap-align: start;
             object-fit: cover;
             filter: contrast(1.1) brightness(0.9); 
+            pointer-events: none;  /* Чтобы фото не перехватывало клики */
+        }
+
+        /* Золотые стрелки (круги) */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background: rgba(5, 5, 5, 0.7);
+            border: 1.5px solid var(--gold-dark);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-gold);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-arrow:hover {
+            background: var(--gold-dark);
+            box-shadow: 0 0 25px rgba(230, 194, 41, 0.6);
+            border-color: var(--gold-light);
+        }
+
+        .carousel-arrow:active {
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        .carousel-arrow.left {
+            left: 15px;
+        }
+
+        .carousel-arrow.right {
+            right: 15px;
+        }
+
+        /* SVG иконки (золотые линии) */
+        .carousel-arrow svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--gold-light);
+            stroke-width: 2;
+            transition: stroke 0.3s ease;
+        }
+
+        .carousel-arrow:hover svg {
+            stroke: var(--bg-deep);
+        }
+
+        /* На мобилках стрелки чуть меньше */
+        @media (max-width: 768px) {
+            .carousel-arrow {
+                width: 36px;
+                height: 36px;
+            }
+            .carousel-arrow svg {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .moon-pagination {
@@ -190,75 +264,45 @@
         }
 
         /* ===== КОСМИЧЕСКАЯ МЕХАНИКА ===== */
-        .app-container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding-bottom: 40px;
-    position: relative;
-    z-index: 1;
-    background-color: transparent;
-}
+        .orbital-planet {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.2;
+            filter: 
+                drop-shadow(0 0 30px rgba(230, 194, 41, 0.2))
+                blur(0.8px);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
+            will-change: transform;
+        }
 
-/* ===== КОСМИЧЕСКАЯ МЕХАНИКА (ФОН) ===== */
-.orbital-planet {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 180px;
-    height: 180px;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.3;
-    filter: 
-        drop-shadow(0 0 30px rgba(230, 194, 41, 0.2))
-        blur(0.3px);
-    transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
-    will-change: transform;
-}
+        .moon-planet {
+            width: 150px;
+            height: 150px;
+        }
 
-/* Плавное затухание к краям */
-/* ===== КОСМИЧЕСКАЯ МЕХАНИКА ===== */
-.orbital-planet {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 180px;
-    height: 180px;
-    transform: translate(-50%, -50%);
-    z-index: 0;  /* Позади контента */
-    pointer-events: none;
-    /*opacity: 0.2;  /* Лёгкая полупрозрачность */
-    filter: 
-        drop-shadow(0 0 20px rgba(230, 194, 41, 0.25))
-        /*blur(0.8px);  /* Слегка размываем края */
-    transition: transform 0.1s cubic-bezier(0.2, 0, 0.1, 1);
-    will-change: transform;
-}
+        .jupiter-planet {
+            width: 200px;
+            height: 200px;
+        }
 
-.moon-planet {
-    width: 250px;
-    height: 250px;
-}
-
-.jupiter-planet {
-    width: 200px;
-    height: 200px;
-}
-
-/* На мобильных ещё тише */
-@media (max-width: 768px) {
-    .orbital-planet {
-        opacity: 0.1;
-        width: 100px;
-        height: 100px;
-        /*filter: blur(0.5px);*/
-    }
-    .jupiter-planet {
-        width: 120px;
-        height: 120px;
-    }
-}
+        @media (max-width: 768px) {
+            .orbital-planet {
+                opacity: 0.1;
+                width: 100px;
+                height: 100px;
+                filter: blur(0.5px);
+            }
+            .jupiter-planet {
+                width: 120px;
+                height: 120px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -275,7 +319,7 @@
     <div class="app-container">
         
         <header>
-            <img src="img/logo1.png" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
+            <img src="img/logo.jpg" alt="The Princess Ascendant" style="width: 80%; max-width: 250px; height: auto;">
             <div class="logo-divider"></div>
         </header>
 
@@ -283,14 +327,28 @@
             
             <!-- Первый товар -->
             <div class="product-card">
-                <div class="image-carousel">
-                    <img src="img/steel6.jpg" alt="Вид 1">
-                    <img src="img/steel1.jpg" alt="Вид 2">
-                    <img src="img/steel2.jpg" alt="Вид 3">
-                    <img src="img/steel3.jpg" alt="Вид 4">
-                    <img src="img/steel4.jpg" alt="Вид 5">
-                    <img src="img/steel5.jpg" alt="Вид 6">
-                    <img src="img/steel7.jpg" alt="Вид 7">
+                <div class="carousel-container">
+                    <div class="image-carousel" id="carousel1">
+                        <img src="img/steel6.jpg" alt="Вид 1">
+                        <img src="img/steel1.jpg" alt="Вид 2">
+                        <img src="img/steel2.jpg" alt="Вид 3">
+                        <img src="img/steel3.jpg" alt="Вид 4">
+                        <img src="img/steel4.jpg" alt="Вид 5">
+                        <img src="img/steel5.jpg" alt="Вид 6">
+                        <img src="img/steel7.jpg" alt="Вид 7">
+                    </div>
+                    <!-- Левая стрелка -->
+                    <div class="carousel-arrow left" onclick="scrollCarousel('carousel1', -1)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </div>
+                    <!-- Правая стрелка -->
+                    <div class="carousel-arrow right" onclick="scrollCarousel('carousel1', 1)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </div>
                 </div>
                 <div class="moon-pagination">☾ ◯ ☽</div>
                 
@@ -315,13 +373,27 @@
             
             <!-- Второй товар -->
             <div class="product-card">
-                <div class="image-carousel">
-                    <img src="img/3ka1.jpg" alt="Вид 1">
-                    <img src="img/3ka2.jpg" alt="Вид 2">
-                    <img src="img/3ka3.jpg" alt="Вид 3">
-                    <img src="img/3ka4.jpg" alt="Вид 4">
-                    <img src="img/3ka5.jpg" alt="Вид 5">
-                    <img src="img/3ka6.jpg" alt="Вид 6">
+                <div class="carousel-container">
+                    <div class="image-carousel" id="carousel2">
+                        <img src="img/3ka1.jpg" alt="Вид 1">
+                        <img src="img/3ka2.jpg" alt="Вид 2">
+                        <img src="img/3ka3.jpg" alt="Вид 3">
+                        <img src="img/3ka4.jpg" alt="Вид 4">
+                        <img src="img/3ka5.jpg" alt="Вид 5">
+                        <img src="img/3ka6.jpg" alt="Вид 6">
+                    </div>
+                    <!-- Левая стрелка -->
+                    <div class="carousel-arrow left" onclick="scrollCarousel('carousel2', -1)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </div>
+                    <!-- Правая стрелка -->
+                    <div class="carousel-arrow right" onclick="scrollCarousel('carousel2', 1)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </div>
                 </div>
                 <div class="moon-pagination">☾ ◯ ☽</div>
                 
@@ -346,6 +418,19 @@
     </div> <!-- закрытие app-container -->
 
     <script>
+        // Функция для прокрутки карусели
+        function scrollCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            
+            const scrollAmount = carousel.clientWidth;
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Орбитальная механика планет
         (function() {
             document.addEventListener('DOMContentLoaded', function() {
                 const moon = document.querySelector('.moon-planet');
@@ -353,9 +438,8 @@
                 
                 if (!moon || !jupiter) return;
                 
-                // Параметры эллиптической орбиты
-                const radiusX = 450;
-                const radiusY = 280;
+                const radiusX = 350;
+                const radiusY = 180;
                 
                 function updateOrbit() {
                     const scrollY = window.scrollY;
@@ -363,8 +447,8 @@
                     const progress = Math.min(scrollY / maxScroll, 1);
                     
                     const baseAngle = progress * Math.PI * 2;
-                    const moonAngle = baseAngle - Math.PI / 3;   // -60° = 10 часов
-                    const jupiterAngle = moonAngle + Math.PI;    // +180° = напротив (4 часа)
+                    const moonAngle = baseAngle - Math.PI / 3;  // 10 часов
+                    const jupiterAngle = moonAngle + Math.PI;   // 4 часа
                     
                     const moonX = Math.cos(moonAngle) * radiusX;
                     const moonY = Math.sin(moonAngle) * radiusY;
@@ -377,7 +461,7 @@
                 }
                 
                 window.addEventListener('scroll', updateOrbit, { passive: true });
-                updateOrbit(); // начальная позиция
+                updateOrbit();
             });
         })();
     </script>
